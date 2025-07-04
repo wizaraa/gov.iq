@@ -19,27 +19,13 @@
             line-height: 1.6;
         }
 
-        .government-header {
-            text-align: center;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
         .government-logo {
-            width: 120px;
+            width: 80px;
             height: auto;
-            margin: 0 auto 10px;
-            display: block;
-        }
-
-        .government-title {
-            color: white;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
         }
 
         .container {
@@ -351,19 +337,15 @@
             }
 
             .government-logo {
-                width: 80px;
+                width: 60px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header with Government Logo -->
-    <div class="government-header">
-        <img src="https://ur.gov.iq/static-img/logo/ar-ur-logo-vertical-white.png" alt="شعار الحكومة العراقية" class="government-logo">
-        <div class="government-title">الحكومة العراقية - بوابة أور</div>
-    </div>
-
     <div class="container">
+        <img src="https://ur.gov.iq/static-img/logo/ar-ur-logo-vertical-white.png" alt="شعار الحكومة العراقية" class="government-logo">
+        
         <div class="header">
             <h1>🏛️ نموذج التحويل</h1>
             <p>نموذج التحويل من وزارة الداخلية والدفاع إلى هيئة الحشد الشعبي</p>
