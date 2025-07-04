@@ -19,6 +19,29 @@
             line-height: 1.6;
         }
 
+        .government-header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .government-logo {
+            width: 120px;
+            height: auto;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .government-title {
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -191,6 +214,125 @@
             100% { transform: rotate(360deg); }
         }
 
+        .success-page {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3em;
+            color: white;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .success-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            font-size: 1.3em;
+            color: #636e72;
+            margin-bottom: 30px;
+        }
+
+        .success-info {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(116, 185, 255, 0.3);
+        }
+
+        .success-info h3 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .success-info p {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .success-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #ddd;
+            color: #2c3e50;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f39c12;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -203,17 +345,31 @@
             .header h1 {
                 font-size: 2em;
             }
+
+            .success-actions {
+                flex-direction: column;
+            }
+
+            .government-logo {
+                width: 80px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Header with Government Logo -->
+    <div class="government-header">
+        <img src="https://ur.gov.iq/static-img/logo/ar-ur-logo-vertical-white.png" alt="شعار الحكومة العراقية" class="government-logo">
+        <div class="government-title">الحكومة العراقية - بوابة أور</div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>🏛️ نموذج التحويل</h1>
             <p>نموذج التحويل من وزارة الداخلية والدفاع إلى هيئة الحشد الشعبي</p>
         </div>
 
-        <div class="form-container">
+        <div class="form-container" id="formContainer">
             <div class="info-box">
                 <h3>🏛️ بوابة أور</h3>
                 <p><strong>بوابة أور</strong> تُعد منصة شاملة تهدف إلى تحسين تجربة المواطن من خلال تسهيل الحصول على الخدمات الحكومية في أي وقت ومن أي مكان.</p>
@@ -357,7 +513,33 @@
                 <p>جاري إرسال البيانات...</p>
             </div>
         </div>
+
+        <!-- Success Page -->
+        <div class="success-page" id="successPage">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">تم إرسال طلبك بنجاح!</h1>
+            <p class="success-message">تم استلام طلب التحويل وحفظه في النظام بنجاح</p>
+            
+            <div class="success-info">
+                <h3>تفاصيل الطلب</h3>
+                <p><strong>رقم الطلب:</strong> <span id="requestId"></span></p>
+                <p><strong>تاريخ الإرسال:</strong> <span id="submissionDate"></span></p>
+                <p><strong>الوقت:</strong> <span id="submissionTime"></span></p>
+            </div>
+            
+            <div class="success-actions">
+                <button class="success-btn primary-btn" onclick="resetToForm()">
+                    إرسال طلب جديد
+                </button>
+                <button class="success-btn secondary-btn" onclick="window.print()">
+                    طباعة الإيصال
+                </button>
+            </div>
+        </div>
     </div>
+
+    <!-- Celebration Effect -->
+    <div class="celebration" id="celebration"></div>
 
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9rExIYjLujk9vUFuaflex2tGB9g7fmSAjZO5iYpidNp6QQg3cwIgr6-UgBujBsoM/exec';
@@ -405,61 +587,55 @@
                 
                 setTimeout(() => {
                     showSuccessPage(data);
-                    resetForm();
                 }, 2000);
                 
             } catch (error) {
                 console.error('خطأ:', error);
                 setTimeout(() => {
                     showSuccessPage(data);
-                    resetForm();
                 }, 2000);
             }
         });
 
         function showSuccessPage(data) {
-            const successHTML = `
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تم الإرسال بنجاح</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; padding: 20px; }
-        .container { background: white; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-width: 500px; }
-        .icon { width: 80px; height: 80px; background: #00b894; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2em; color: white; }
-        h1 { color: #2c3e50; margin-bottom: 20px; }
-        .info { background: #74b9ff; color: white; padding: 20px; border-radius: 10px; margin: 20px 0; }
-        button { background: #667eea; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; margin: 5px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="icon">✓</div>
-        <h1>تم إرسال طلبك بنجاح!</h1>
-        <p>تم استلام طلب التحويل وحفظه في النظام.</p>
-        <div class="info">
-            <strong>رقم الطلب:</strong> ${data.submissionId}<br>
-            <strong>التاريخ:</strong> ${new Date().toLocaleDateString('ar-IQ')}
-        </div>
-        <button onclick="window.close()">إغلاق</button>
-        <button onclick="window.history.back()">عودة</button>
-    </div>
-</body>
-</html>`;
-
-            const newWindow = window.open('', '_blank');
-            if (newWindow) {
-                newWindow.document.write(successHTML);
-                newWindow.document.close();
-            } else {
-                alert('تم إرسال طلبك بنجاح!\\nرقم الطلب: ' + data.submissionId);
-            }
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('formContainer').style.display = 'none';
+            
+            // Show success page
+            document.getElementById('successPage').style.display = 'block';
+            
+            // Fill success page data
+            document.getElementById('requestId').textContent = data.submissionId;
+            document.getElementById('submissionDate').textContent = new Date().toLocaleDateString('ar-IQ');
+            document.getElementById('submissionTime').textContent = new Date().toLocaleTimeString('ar-IQ');
+            
+            // Add celebration effect
+            createCelebration();
         }
 
-        function resetForm() {
-            document.getElementById('loading').style.display = 'none';
+        function createCelebration() {
+            const celebration = document.getElementById('celebration');
+            const colors = ['#f39c12', '#e74c3c', '#9b59b6', '#3498db', '#2ecc71'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                celebration.appendChild(confetti);
+            }
+            
+            // Remove confetti after animation
+            setTimeout(() => {
+                celebration.innerHTML = '';
+            }, 5000);
+        }
+
+        function resetToForm() {
+            document.getElementById('successPage').style.display = 'none';
+            document.getElementById('formContainer').style.display = 'block';
             document.getElementById('transferForm').reset();
             document.getElementById('transferForm').style.display = 'block';
             
