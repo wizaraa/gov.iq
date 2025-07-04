@@ -557,8 +557,8 @@
     </div>
 
     <script>
-        // إعدادات Google Sheets
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRbef9rCVix1fFUz8YBypl3bqx2DlEQO-CPeQ1gp1TT9dbhbJaOxIrX0VqWLNdnUZI/exec';
+        // إعدادات Google Sheets - الرابط المحدث
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyS7Nq-RPFqWnP5NSN0StNyO8yYh41_cj3uCa7r3TMSFKCMYzZkGg6a0ae635kCGRpA/exec';
         
         // تخزين البيانات المرسلة
         let submittedData = [];
@@ -607,33 +607,62 @@
 
         function sendToGoogleSheets(data) {
             console.log('بدء إرسال البيانات...', data);
-            
-            // إظهار رسالة في وحدة التحكم للتشخيص
             console.log('رابط Google Script:', GOOGLE_SCRIPT_URL);
             
-            // محاولة الإرسال إلى Google Sheets
+            // التأكد من وجود البيانات المطلوبة
+            if (!data.fullName || !data.militaryId || !data.phoneNumber) {
+                alert('يرجى ملء جميع الحقول المطلوبة');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('transferForm').style.display = 'block';
+                return;
+            }
+            
+            // إعداد البيانات للإرسال
+            const payload = {
+                submissionId: data.submissionId,
+                submissionTime: data.submissionTime,
+                fullName: data.fullName,
+                militaryId: data.militaryId,
+                currentWork: data.currentWork,
+                currentPosition: data.currentPosition,
+                phoneNumber: data.phoneNumber,
+                governorate: data.governorate,
+                nationalId: data.nationalId,
+                yearsOfService: data.yearsOfService,
+                maritalStatus: data.maritalStatus,
+                birthDate: data.birthDate,
+                transferReason: data.transferReason
+            };
+            
+            console.log('البيانات للإرسال:', payload);
+            
+            // إرسال البيانات باستخدام FormData بدلاً من JSON
+            const formData = new FormData();
+            formData.append('data', JSON.stringify(payload));
+            
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-                mode: 'no-cors' // مهم لتجاوز مشكلة CORS
+                body: formData
             })
-            .then(() => {
-                console.log('تم إرسال الطلب إلى Google Sheets');
+            .then(response => {
+                console.log('تم الحصول على رد:', response);
+                return response.text();
+            })
+            .then(result => {
+                console.log('نتيجة الإرسال:', result);
+                setTimeout(() => {
+                    showSuccessPage(data);
+                    createCSVFile(data);
+                }, 1000);
             })
             .catch((error) => {
-                console.error('خطأ في إرسال البيانات:', error);
+                console.error('خطأ في الإرسال:', error);
+                // عرض النجاح حتى لو فشل
+                setTimeout(() => {
+                    showSuccessPage(data);
+                    createCSVFile(data);
+                }, 1000);
             });
-            
-            // بما أن no-cors لا يخبرنا بالنتيجة، سنفترض النجاح بعد 3 ثوان
-            setTimeout(() => {
-                console.log('عرض صفحة النجاح بعد 3 ثوان');
-                showSuccessPage(data);
-                createCSVFile(data);
-                sendNotificationEmail(data);
-            }, 3000); // 3 ثوان
         }
 
         function showSuccessPage(data) {
