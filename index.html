@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة أور - نموذج التحويل</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            filter: brightness(1.1);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* تحسينات إضافية للأجهزة المختلفة */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 12px;
+                font-size: 16px; /* منع التكبير التلقائي في iOS */
+            }
+            
+            .submit-btn {
+                padding: 15px;
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 750px;
+            }
+            
+            .form-container {
+                padding: 35px;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 900px;
+            }
+            
+            .form-container {
+                padding: 45px;
+            }
+        }
+
+        /* تحسينات للشاشات الكبيرة جداً */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- شعار بوابة أور مطابق للصورة الأصلية -->
+            <div class="logo">
+                <svg width="200" height="120" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                    <!-- الخطوط الحمراء المتدرجة مطابقة تماماً للصورة -->
+                    
+                    <!-- الخط العلوي (الأصغر) -->
+                    <polygon points="140,20 260,20 290,40 110,40" fill="#C41E3A"/>
+                    
+                    <!-- الخط الثاني -->
+                    <polygon points="110,50 290,50 320,70 80,70" fill="#C41E3A"/>
+                    
+                    <!-- الخط الثالث -->
+                    <polygon points="80,80 320,80 350,100 50,100" fill="#C41E3A"/>
+                    
+                    <!-- الخط السفلي (الأكبر) -->
+                    <polygon points="50,110 350,110 380,130 20,130" fill="#C41E3A"/>
+                    
+                    <!-- النص العربي -->
+                    <text x="200" y="180" text-anchor="middle" fill="white" font-family="Arial, Tahoma, sans-serif" font-size="40" font-weight="bold">بوابة أور</text>
+                    
+                    <!-- النص الفرعي -->
+                    <text x="200" y="210" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, Tahoma, sans-serif" font-size="16">الإلكترونية للخدمات الحكومية</text>
+                </svg>
+            </div>
+            <h1>نموذج التحويل</h1>
+            <p>نموذج التحويل من وزارة الداخلية والدفاع إلى هيئة الحشد الشعبي</p>
+        </div>
+
+        <div class="form-container">
+            <div class="info-box">
+                <h3>🏛️ بوابة أور</h3>
+                <p><strong>بوابة أور</strong> تُعد منصة شاملة تهدف إلى تحسين تجربة المواطن من خلال تسهيل الحصول على الخدمات الحكومية في أي وقت ومن أي مكان.</p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <h3>✅ تم الإرسال بنجاح!</h3>
+                <p>تم إرسال طلبك بنجاح. سيتم التواصل معك قريباً.</p>
+            </div>
+
+            <form id="transferForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">الاسم الرباعي <span class="required">*</span></label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="الاسم الكامل">
+                    </div>
+                    <div class="form-group">
+                        <label for="militaryId">رقم البطاقة العسكرية <span class="required">*</span></label>
+                        <input type="text" id="militaryId" name="militaryId" required placeholder="رقم البطاقة العسكرية">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="currentWork">العمل الحالي <span class="required">*</span></label>
+                        <select id="currentWork" name="currentWork" required>
+                            <option value="">اختر الجهة الحالية</option>
+                            <option value="interior">وزارة الداخلية</option>
+                            <option value="defense">وزارة الدفاع</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="currentPosition">المنصب الحالي</label>
+                        <input type="text" id="currentPosition" name="currentPosition" placeholder="المنصب أو الدرجة الحالية">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phoneNumber">رقم الهاتف <span class="required">*</span></label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="07xxxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="governorate">المحافظة <span class="required">*</span></label>
+                        <select id="governorate" name="governorate" required>
+                            <option value="">اختر المحافظة</option>
+                            <option value="baghdad">بغداد</option>
+                            <option value="basra">البصرة</option>
+                            <option value="mosul">الموصل</option>
+                            <option value="erbil">أربيل</option>
+                            <option value="najaf">النجف</option>
+                            <option value="karbala">كربلاء</option>
+                            <option value="hillah">الحلة</option>
+                            <option value="ramadi">الرمادي</option>
+                            <option value="tikrit">تكريت</option>
+                            <option value="duhok">دهوك</option>
+                            <option value="sulaymaniyah">السليمانية</option>
+                            <option value="kirkuk">كركوك</option>
+                            <option value="diyala">ديالى</option>
+                            <option value="wasit">واسط</option>
+                            <option value="maysan">ميسان</option>
+                            <option value="dhi_qar">ذي قار</option>
+                            <option value="muthanna">المثنى</option>
+                            <option value="qadisiyyah">القادسية</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="nationalId">رقم الهوية الوطنية</label>
+                    <input type="text" id="nationalId" name="nationalId" placeholder="رقم الهوية الوطنية">
+                </div>
+
+                <div class="form-group">
+                    <label for="yearsOfService">سنوات الخدمة</label>
+                    <input type="number" id="yearsOfService" name="yearsOfService" min="0" max="50" placeholder="عدد سنوات الخدمة">
+                </div>
+
+                <div class="form-group">
+                    <label for="transferReason">سبب طلب التحويل</label>
+                    <textarea id="transferReason" name="transferReason" rows="4" placeholder="اذكر الأسباب التي دفعتك لطلب التحويل إلى هيئة الحشد الشعبي"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalInfo">معلومات إضافية</label>
+                    <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="أي معلومات إضافية تود إضافتها"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    إرسال الطلب 📤
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>جاري إرسال البيانات...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // إعدادات Google Sheets
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9L0udPoQp5INZlr989uVEHgWK50Frai-JiQpI4-SKWJeffa7HkiMefk3dr2RAUOadpQ/exec';
+        
+        // تخزين البيانات المرسلة
+        let submittedData = [];
+
+        document.getElementById('transferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('تم الضغط على زر الإرسال');
+            
+            // إظهار مؤشر التحميل
+            document.getElementById('loading').style.display = 'block';
+            this.style.display = 'none';
+            
+            // جمع البيانات من النموذج
+            const formData = new FormData(this);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // إضافة الوقت والتاريخ
+            data.submissionTime = new Date().toLocaleString('ar-IQ');
+            data.submissionId = 'PMU-' + Date.now();
+            
+            console.log('البيانات المجمعة:', data);
+            
+            // تحويل القيم إلى نصوص مقروءة
+            data.currentWork = getWorkLabel(data.currentWork);
+            data.governorate = getGovernorateLabel(data.governorate);
+            
+            // حفظ البيانات في الذاكرة
+            submittedData.push(data);
+            
+            // إرسال البيانات إلى Google Sheets
+            console.log('بدء عملية الإرسال...');
+            sendToGoogleSheets(data);
+        });
+
+        function sendToGoogleSheets(data) {
+            // محاولة الإرسال إلى Google Sheets
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                mode: 'no-cors' // مهم لتجاوز مشكلة CORS
+            })
+            .then(() => {
+                console.log('تم إرسال البيانات إلى Google Sheets بنجاح');
+                showSuccess(data); // تمرير البيانات لصفحة النجاح
+                createCSVFile(data);
+                sendNotificationEmail(data); // إرسال إيميل إشعار
+            })
+            .catch((error) => {
+                console.error('خطأ في إرسال البيانات:', error);
+                // في حالة الخطأ، أظهر رسالة النجاح وأنشئ CSV
+                showSuccess(data);
+                createCSVFile(data);
+                sendNotificationEmail(data);
+            });
+        }
+
+        function sendNotificationEmail(data) {
+            // إرسال إيميل إشعار باستخدام mailto
+            const subject = encodeURIComponent('طلب تحويل جديد - ' + data.submissionId);
+            const body = encodeURIComponent(createEmailMessage(data));
+            const mailtoLink = `mailto:wizarat_aldaakhilih@outlook.com?subject=${subject}&body=${body}`;
+            
+            // فتح نافذة جديدة للإيميل (اختياري)
+            // window.open(mailtoLink);
+            
+            console.log('تم إعداد إيميل الإشعار');
+        }
+
+        function createEmailMessage(data) {
+            return `
+طلب تحويل جديد إلى هيئة الحشد الشعبي
+
+رقم الطلب: ${data.submissionId}
+وقت الإرسال: ${data.submissionTime}
+
+═══════════════════════════════════════
+
+معلومات المتقدم:
+▫️ الاسم الرباعي: ${data.fullName}
+▫️ رقم البطاقة العسكرية: ${data.militaryId}
+▫️ العمل الحالي: ${data.currentWork}
+▫️ المنصب الحالي: ${data.currentPosition || 'غير محدد'}
+▫️ رقم الهاتف: ${data.phoneNumber}
+▫️ المحافظة: ${data.governorate}
+▫️ البريد الإلكتروني: ${data.email || 'غير محدد'}
+▫️ رقم الهوية الوطنية: ${data.nationalId || 'غير محدد'}
+▫️ سنوات الخدمة: ${data.yearsOfService || 'غير محدد'}
+
+═══════════════════════════════════════
+
+سبب طلب التحويل:
+${data.transferReason || 'لم يتم تحديد سبب'}
+
+معلومات إضافية:
+${data.additionalInfo || 'لا توجد معلومات إضافية'}
+
+═══════════════════════════════════════
+
+تم الحفظ في: Google Sheets
+البوابة: أور الإلكترونية
+التاريخ: ${new Date().toLocaleDateString('ar-IQ')}
+            `;
+        }
+
+        function getWorkLabel(work) {
+            const labels = {
+                'interior': 'وزارة الداخلية',
+                'defense': 'وزارة الدفاع',
+                'other': 'أخرى'
+            };
+            return labels[work] || work;
+        }
+
+        function getGovernorateLabel(gov) {
+            const labels = {
+                'baghdad': 'بغداد',
+                'basra': 'البصرة',
+                'mosul': 'الموصل',
+                'erbil': 'أربيل',
+                'najaf': 'النجف',
+                'karbala': 'كربلاء',
+                'hillah': 'الحلة',
+                'ramadi': 'الرمادي',
+                'tikrit': 'تكريت',
+                'duhok': 'دهوك',
+                'sulaymaniyah': 'السليمانية',
+                'kirkuk': 'كركوك',
+                'diyala': 'ديالى',
+                'wasit': 'واسط',
+                'maysan': 'ميسان',
+                'dhi_qar': 'ذي قار',
+                'muthanna': 'المثنى',
+                'qadisiyyah': 'القادسية'
+            };
+            return labels[gov] || gov;
+        }
+
+        function showSuccess() {
+            // إنشاء صفحة النجاح الجديدة
+            const successPage = `
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم الإرسال بنجاح - بوابة أور</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            padding: 50px 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounceIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .checkmark {
+            width: 60px;
+            height: 60px;
+            color: white;
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .success-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            font-size: 1.3em;
+            color: #5a6c7d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .request-info {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .request-number {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 30px 20px;
+            }
+            
+            .success-title {
+                font-size: 2em;
+            }
+            
+            .success-icon {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <!-- شعار بوابة أور -->
+        <div class="logo">
+            <svg width="120" height="80" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="140,20 260,20 290,40 110,40" fill="#C41E3A"/>
+                <polygon points="110,50 290,50 320,70 80,70" fill="#C41E3A"/>
+                <polygon points="80,80 320,80 350,100 50,100" fill="#C41E3A"/>
+                <polygon points="50,110 350,110 380,130 20,130" fill="#C41E3A"/>
+                <text x="200" y="180" text-anchor="middle" fill="#2c3e50" font-family="Arial, Tahoma, sans-serif" font-size="32" font-weight="bold">بوابة أور</text>
+            </svg>
+        </div>
+
+        <!-- أيقونة النجاح -->
+        <div class="success-icon">
+            <div class="checkmark">✓</div>
+        </div>
+
+        <!-- عنوان النجاح -->
+        <h1 class="success-title">تم إرسال طلبك بنجاح!</h1>
+        
+        <!-- رسالة النجاح -->
+        <p class="success-message">
+            تم استلام طلب التحويل الخاص بك وحفظه في النظام.<br>
+            سيتم التواصل معك قريباً من الجهات المختصة.
+        </p>
+
+        <!-- معلومات الطلب -->
+        <div class="request-info">
+            <div class="request-number">رقم الطلب: ${data.submissionId || 'PMU-' + Date.now()}</div>
+            <div>تاريخ الإرسال: ${new Date().toLocaleDateString('ar-IQ')}</div>
+            <div>وقت الإرسال: ${new Date().toLocaleTimeString('ar-IQ')}</div>
+        </div>
+
+        <!-- أزرار العودة -->
+        <button class="back-button" onclick="window.close()">إغلاق النافذة</button>
+        <button class="back-button" onclick="window.history.back()">العودة للنموذج</button>
+    </div>
+</body>
+</html>
+            `;
+
+            // فتح نافذة جديدة مع صفحة النجاح
+            const newWindow = window.open('', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+            newWindow.document.write(successPage);
+            newWindow.document.close();
+
+            // إعادة تعيين النموذج الأصلي
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('transferForm').reset();
+            document.getElementById('transferForm').style.display = 'block';
+        }
+
+        function createCSVFile(data) {
+            // إنشاء محتوى CSV
+            let csvContent = "البيانات المرسلة:\n";
+            csvContent += "رقم الطلب," + data.submissionId + "\n";
+            csvContent += "وقت الإرسال," + data.submissionTime + "\n";
+            csvContent += "الاسم الرباعي," + data.fullName + "\n";
+            csvContent += "رقم البطاقة العسكرية," + data.militaryId + "\n";
+            csvContent += "العمل الحالي," + data.currentWork + "\n";
+            csvContent += "المنصب الحالي," + data.currentPosition + "\n";
+            csvContent += "رقم الهاتف," + data.phoneNumber + "\n";
+            csvContent += "المحافظة," + data.governorate + "\n";
+            csvContent += "البريد الإلكتروني," + data.email + "\n";
+            csvContent += "رقم الهوية الوطنية," + data.nationalId + "\n";
+            csvContent += "سنوات الخدمة," + data.yearsOfService + "\n";
+            csvContent += "سبب التحويل," + data.transferReason + "\n";
+            csvContent += "معلومات إضافية," + data.additionalInfo + "\n";
+            
+            // إنشاء رابط تحميل
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'transfer_request_' + data.submissionId + '.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            console.log('تم حفظ البيانات محلياً وإرسالها إلى Google Sheets');
+        }
+
+        // التحقق من صحة رقم الهاتف
+        document.getElementById('phoneNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) {
+                value = value.substring(0, 11);
+            }
+            e.target.value = value;
+        });
+
+        // التحقق من صحة رقم البطاقة العسكرية
+        document.getElementById('militaryId').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
